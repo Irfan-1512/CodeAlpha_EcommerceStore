@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api/products', require('./routes/products'));
+app.use('/api/auth', require('./routes/auth'));
 
 // Unknown API routes return JSON, not HTML
 app.use('/api', (req, res) => {

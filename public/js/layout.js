@@ -1,3 +1,6 @@
+import { updateBadge } from './cart.js';
+import { api } from './api.js';
+
 // Shared header and footer. The markup is static (no user input), so innerHTML is safe here.
 document.getElementById('site-header').innerHTML = `
   <div class="container header-inner">
@@ -19,3 +22,35 @@ document.getElementById('site-footer').innerHTML = `
 // Keep the search text in the box after searching
 const q = new URLSearchParams(location.search).get('q');
 if (q) document.getElementById('search-input').value = q;
+
+updateBadge();
+
+// Show the user's name and a Logout button when logged in
+async function showUser() {
+  try {
+    const { user } = await api('/auth/me');
+    if (!user) return;
+
+    const hello = document.createElement('span');
+    hello.textContent = `Hi, ${user.name}`;
+
+    const logout = document.createElement('button');
+    logout.className = 'btn btn-secondary';
+    logout.type = 'button';
+    logout.textContent = 'Logout';
+    logout.addEventListener('click', async () => {
+      try {
+        await api('/auth/logout', { method: 'POST' });
+      } catch {
+        // already logged out
+      }
+      location.href = '/';
+    });
+
+    document.getElementById('auth-link').replaceWith(hello, logout);
+  } catch {
+    // leave the Login link in place
+  }
+}
+
+showUser();
