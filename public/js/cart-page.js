@@ -1,9 +1,10 @@
 import { api, formatPrice } from './api.js';
-import { getCart, setQty, removeItem, MAX_QTY } from './cart.js';
+import { getCart, setQty, removeItem, clearCart, MAX_QTY } from './cart.js';
 
 const statusEl = document.getElementById('status');
 const list = document.getElementById('cart-list');
 const summary = document.getElementById('summary');
+const orderMsg = document.getElementById('order-msg');
 
 let products = new Map();
 let removedNotice = false;
@@ -13,6 +14,11 @@ function el(tag, className, text) {
   if (className) node.className = className;
   if (text !== undefined) node.textContent = text;
   return node;
+}
+
+function showOrderMessage(text, kind) {
+  orderMsg.className = kind ? `notice ${kind}` : 'notice';
+  orderMsg.textContent = text;
 }
 
 function showEmpty() {
@@ -75,6 +81,36 @@ function makeRow(item, p) {
   return li;
 }
 
+async function placeOrder(button) {
+  showOrderMessage('');
+  button.disabled = true;
+  try {
+    // Must be logged in to order; send guests to login and bring them back here
+    const { user } = await api('/auth/me');
+    if (!user) {
+      location.href = '/login.html?next=/cart.html';
+      return;
+    }
+
+    const items = getCart().map((i) => ({ product_id: i.id, quantity: i.qty }));
+    const order = await api('/orders', { method: 'POST', body: JSON.stringify({ items }) });
+
+    clearCart();
+    location.href = `/orders.html?placed=${order.id}`;
+  } catch (err) {
+    showOrderMessage(err.message, 'error');
+    button.disabled = false;
+    // Stock may have changed, so refresh the cart data
+    try {
+      const all = await api('/products');
+      products = new Map(all.map((p) => [p.id, p]));
+    } catch {
+      // keep the old data
+    }
+    render();
+  }
+}
+
 function render() {
   // Remove items whose product is gone or out of stock, and cap quantity at stock
   for (const item of getCart()) {
@@ -101,7 +137,10 @@ function render() {
   list.replaceChildren(...cart.map((item) => makeRow(item, products.get(item.id))));
 
   const total = cart.reduce((sum, i) => sum + products.get(i.id).price_cents * i.qty, 0);
-  summary.replaceChildren(el('span', '', 'Total'), el('strong', 'total', formatPrice(total)));
+  const order = el('button', 'btn btn-primary place-order', 'Place Order');
+  order.type = 'button';
+  order.addEventListener('click', () => placeOrder(order));
+  summary.replaceChildren(el('span', '', 'Total'), el('strong', 'total', formatPrice(total)), order);
   summary.hidden = false;
 }
 

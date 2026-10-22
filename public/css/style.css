@@ -512,3 +512,77 @@ input[type='checkbox'] {
   cursor: pointer;
   text-decoration: underline;
 }
+/* Place order and order history */
+.summary {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.place-order {
+  flex: 1 1 100%;
+}
+.banner {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  color: var(--success);
+  font-weight: 600;
+  background: #f0fdf4;
+  border: 1px solid var(--success);
+  border-radius: var(--radius);
+}
+.banner[hidden] {
+  display: none;
+}
+.orders {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.order {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.order-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.order-title {
+  margin: 0;
+  font-size: 18px;
+}
+.status-pill {
+  padding: 2px 12px;
+  color: var(--success);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+  background: #f0fdf4;
+  border-radius: 999px;
+}
+.order-items {
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+.order-items li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+}
+.order-line {
+  margin-left: auto;
+  font-weight: 600;
+}
+.order-total {
+  margin: 0;
+  text-align: right;
+  font-size: 18px;
+}

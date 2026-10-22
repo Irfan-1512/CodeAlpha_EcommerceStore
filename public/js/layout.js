@@ -47,7 +47,11 @@ async function showUser() {
       location.href = '/';
     });
 
-    document.getElementById('auth-link').replaceWith(hello, logout);
+           const orders = document.createElement('a');
+       orders.href = '/orders.html';
+       orders.textContent = 'Orders';
+
+       document.getElementById('auth-link').replaceWith(hello, orders, logout);
   } catch {
     // leave the Login link in place
   }
