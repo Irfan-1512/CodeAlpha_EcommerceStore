@@ -4,11 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MoonMart</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <main>
-    <h1>MoonMart</h1>
-    <p>Your everyday store, out of this world.</p>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="container">
+    <h1 id="heading">All products</h1>
+    <div class="filters">
+      <label for="category">Category</label>
+      <select id="category"><option value="">All categories</option></select>
+    </div>
+    <p id="status" class="status" role="status"></p>
+    <ul id="grid" class="grid"></ul>
   </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script type="module" src="/js/layout.js"></script>
+  <script type="module" src="/js/home.js"></script>
 </body>
 </html>
