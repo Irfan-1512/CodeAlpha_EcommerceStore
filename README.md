@@ -2,8 +2,7 @@
 
 A full-stack e-commerce website built for **CodeAlpha Task 1** (Full Stack Development internship). Users can browse products, search and filter, add items to a cart, register and log in, place orders and view their order history.
 
-**Live demo:** _add your deployed link here_
-
+**Live demo:** https://moonmart.onrender.com
 ## Screenshots
 
 | Home | Product | Cart |
