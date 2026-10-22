@@ -17,10 +17,12 @@ app.use(
 );
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api/products', require('./routes/products'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/orders', require('./routes/orders'));
 
 // Unknown API routes return JSON, not HTML
 app.use('/api', (req, res) => {
@@ -36,5 +38,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong' });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`MoonMart running at http://localhost:${port}`));
+module.exports = app;
+
+if (require.main === module) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`MoonMart running at http://localhost:${port}`));
+}
