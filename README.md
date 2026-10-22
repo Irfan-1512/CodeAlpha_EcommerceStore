@@ -36,7 +36,7 @@ A full-stack e-commerce website built for **CodeAlpha Task 1** (Full Stack Devel
 **Requirements:** Node.js 18 or newer.
 
 ```bash
-git clone https://github.com/Irfan-1512/CodeAlpha_EcommerceStore.git
+git clone https://github.com/Irfan-1512/CodeAlpha_EcommerceStore
 cd CodeAlpha_EcommerceStore
 npm install
 ```
